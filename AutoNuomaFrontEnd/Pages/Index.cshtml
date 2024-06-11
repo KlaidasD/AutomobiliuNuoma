@@ -1,0 +1,18 @@
+﻿@page
+@model AutoNuomaFrontEnd.Pages.IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Sveiki atvykę.</h1>
+    <p class="text-muted">Pasirinkite kategoriją.</p>
+</div>
+
+<div class="d-flex justify-content-center mt-4">
+    <a class="btn btn-primary mx-2" asp-area="" asp-page="/Automobiliai">Automobiliai</a>
+    <a class="btn btn-primary mx-2" asp-area="" asp-page="/Klientai">Klientai</a>
+    <a class="btn btn-primary mx-2" asp-area="" asp-page="/Nuoma">Nuoma</a>
+    <a class="btn btn-primary mx-2" asp-area="" asp-page="/Saskaitos">Saskaitos</a>
+</div>
+

@@ -4,6 +4,11 @@ using System.Data.SqlClient;
 using System.Data;
 using AutomobiliuNuoma.Repositories;
 using AutomobiliuNuoma.Services;
+using AutomobiliuNuoma.Models;
+using AutomobiliuNuoma.Contracts;
+using MongoDB.Driver;
+using AutomobiliuNuoma.Repository;
+
 
 namespace AutomobiliuNuoma
 {
@@ -12,12 +17,17 @@ namespace AutomobiliuNuoma
         public static void Main(string[] args)
         {
             string connectionString = "Server=DESKTOP-9849SKM;Database=autonuoma;Integrated Security=True;";
-            IDatabaseRepository databaseRepository = new DatabaseRepository(connectionString);
-            NuomaService nuomaService = new NuomaService(databaseRepository, connectionString);
-            NuomaUI nuomaUI = new NuomaUI(nuomaService, databaseRepository);
-
+            string mongoConnectionString = "mongodb+srv://kdaunoras:456!456@cluster0.d06sgyt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+            var databaseRepository = new DatabaseRepository(connectionString);
+            IMongoClient mongoClient = new MongoClient(mongoConnectionString);
+            var mongoRepository = new MongoRepository(mongoClient);
+            var nuomaService = new NuomaService(databaseRepository, mongoRepository, mongoClient);
+            var nuomaUI = new NuomaUI(nuomaService);
+            //mongoRepository.AddAutomobilis(new Automobilis { Marke = "Audi", Modelis = "A4", Metai = 2010, RegistracijosNumeris = "ABC123" });
             nuomaUI.Menu();
-
+            while (true) ;
+            
+            
         }
     }
 }

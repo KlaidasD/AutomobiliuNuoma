@@ -1,0 +1,130 @@
+﻿@page
+@model KlientaiModel
+@{
+    ViewData["Title"] = "Klientai";
+}
+<style>
+    .form-control {
+        width: 35ch; /* Set initial width to fit 35 characters */
+        margin-left: 10px;
+    }
+
+    .btn-margin {
+        margin-top: 10px;
+    }
+
+    form button[type="submit"] {
+        margin-top: 10px;
+    }
+
+    .form-wrapper {
+        transition: height 0.5s ease; /* Add transition for height property over 0.5 seconds */
+        overflow: hidden;
+    }
+
+</style>
+<div class="text-center">
+    <h1 class="display-4">Klientų sąrašas</h1>
+</div>
+<div class="d-flex justify-content-center mt-4">
+    <a class="btn btn-primary mx-2" asp-area="" asp-page="/Automobiliai">Automobiliai</a>
+    <a class="btn btn-primary mx-2" asp-area="" asp-page="/Klientai">Klientai</a>
+    <a class="btn btn-primary mx-2" asp-area="" asp-page="/Nuoma">Nuoma</a>
+</div>
+
+<div class="text-center mt-4">
+    <button type="button" class="btn btn-success mx-2" onclick="toggleFormVisibility('addClientForm')">Pridėti klientą</button>
+    <button type="button" class="btn btn-success mx-2" onclick="toggleFormVisibility('updateClientForm')">Atnaujinti kliento info</button>
+</div>
+
+<div id="addClientFormWrapper" class="form-wrapper" style="height: 0;">
+    <form id="addClientForm" method="post" action="http://localhost:5036/DatabaseActions/RegisterClient">
+        <div class="form-group">
+            <label for="Vardas">Įveskite kliento vardą:</label>
+            <input type="text" class="form-control" id="Vardas" name="Vardas" required>
+        </div>
+
+        <div class="form-group">
+            <label for="Pavarde">Pavardė:</label>
+            <input type="text" class="form-control" id="Pavarde" name="Pavarde">
+        </div>
+        <div class="form-group">
+            <label for="Email">Email:</label>
+            <input type="text" class="form-control" id="Email" name="Email">
+        </div>
+        <button type="submit" class="btn btn-primary">Sukurti</button>
+    </form>
+</div>
+
+<div id="updateClientFormWrapper" class="form-wrapper" style="height: 0;">
+    <form id="updateClientForm" method="post" action="http://localhost:5036/DatabaseActions/UpdateKlientas">
+        <div class="form-group">
+            <label for="id">Įveskite atnaujinamo kliento ID:</label>
+            <input type="number" class="form-control" id="id" name="id" required>
+        </div>
+        <div class="form-group">
+            <label for="vardas">Įveskite naują kliento vardą:</label>
+            <input type="text" class="form-control" id="vardas" name="vardas">
+        </div>
+        <div class="form-group">
+            <label for="pavarde">Pavardė:</label>
+            <input type="text" class="form-control" id="pavarde" name="pavarde">
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="text" class="form-control" id="email" name="email">
+        </div>
+        <button type="submit" class="btn btn-primary">Atnaujinti</button>
+    </form>
+</div>
+
+<script>
+    function toggleFormVisibility(formId) {
+        var formWrapper = document.getElementById(formId + "Wrapper");
+
+        // Toggle the height of the selected form
+        if (formWrapper.style.height === "0px") {
+            formWrapper.style.height = formWrapper.scrollHeight + "px";
+        } else {
+            formWrapper.style.height = "0px";
+        }
+
+        // Hide other forms if they are open
+        var allFormWrappers = document.querySelectorAll('.form-wrapper');
+        allFormWrappers.forEach(function (wrapper) {
+            if (wrapper.id !== formId + "Wrapper" && wrapper.style.height !== "0px") {
+                wrapper.style.height = "0px";
+            }
+        });
+    }
+
+    // Ensure no forms are visible on page load
+    window.addEventListener('load', function () {
+        var allFormWrappers = document.querySelectorAll('.form-wrapper');
+        allFormWrappers.forEach(function (wrapper) {
+            wrapper.style.height = "0px";
+        });
+    });
+</script>
+
+<table class="table table-striped mt-4">
+    <thead>
+        <tr>
+            <th>Vardas</th>
+            <th>Pavardė</th>
+            <th>El. paštas</th>
+            <th>Registruotas nuo</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var client in Model.Klientai)
+        {
+            <tr>
+                <td>@client.Vardas</td>
+                <td>@client.Pavarde</td>
+                <td>@client.Email</td>
+                <td>@client.RegData</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -15,12 +15,12 @@ namespace AutomobiliuNuoma.Services
     public class NuomaUI
     {
         private readonly INuomaService _nuomaService;
-        public NuomaUI(INuomaService nuomaService, IDatabaseRepository databaseRepository)
+        public NuomaUI(INuomaService nuomaService)
         {
             _nuomaService = nuomaService;
         }
 
-        public void Menu()
+        public async Task<bool> Menu()
         {
             
             while(true)
@@ -53,13 +53,11 @@ namespace AutomobiliuNuoma.Services
                         Console.WriteLine("Pasirinkite automobiliu tipa:*iveskite skaiciu*");
                         Console.WriteLine("1. Naftos/Kuro automobilis");
                         Console.WriteLine("2. Elektromobilis");
-
                         if (!int.TryParse(Console.ReadLine(), out int pasirinkimas))
                         {
                             Console.WriteLine("Neteisinga ivestis. Iveskite skaiciu 1 arba 2.");
                             continue;
                         }
-
                         string tipas = pasirinkimas ==  1 ? "NaftosKuroAutomobilis" : "Elektromobilis";
                         List<Automobilis> automobiliai = _nuomaService.GetAutomobiliai(tipas);
 
@@ -78,10 +76,10 @@ namespace AutomobiliuNuoma.Services
                         break;
                     case 4:
                      Console.WriteLine("Spausdinami visi isnuomoti automobiliai:");
-                        List<Automobilis> isnuomoti = _nuomaService.GetRentedAutomobiliai();
+                        List<Nuoma> isnuomoti = _nuomaService.GetRentedAutomobiliai();
                         if (isnuomoti.Count > 0)
                         {
-                            foreach (Automobilis auto in isnuomoti)
+                            foreach (Nuoma auto in isnuomoti)
                             {
                                 Console.WriteLine(auto);
                             }
@@ -107,14 +105,22 @@ namespace AutomobiliuNuoma.Services
                         }
                         break;
                     case 6:
-                        Console.WriteLine("Iveskite automobilio id kuri norite atnaujinti: ");
-                        int atnaujinamas;
-                        if (!int.TryParse(Console.ReadLine(), out atnaujinamas))
+                        Console.WriteLine("Iveskite automobilio ID, kuri norite atnaujinti: ");
+                        int id;
+                        if (!int.TryParse(Console.ReadLine(), out id))
                         {
                             Console.WriteLine("Neteisinga ivestis");
-                            return;
+                            return true;
                         }
-                        _nuomaService.UpdateAutomobilis(atnaujinamas);
+                        Console.WriteLine("Nauja marke:");
+                        string marke = Console.ReadLine();
+                        Console.WriteLine("Naujas modelis:");
+                        string modelis = Console.ReadLine();
+                        Console.WriteLine("Nauji metai:");
+                        int metai = int.Parse(Console.ReadLine());
+                        Console.WriteLine("Naujas registracijos numeris:");
+                        string regNr = Console.ReadLine();
+                        _nuomaService.UpdateAutomobilis(id, marke, modelis, metai, regNr);
                         break;
                     case 7:
                         Console.WriteLine("Iveskite automobilio id kuri norite istrinti:");
@@ -122,7 +128,7 @@ namespace AutomobiliuNuoma.Services
                         if (!int.TryParse(Console.ReadLine(), out istrinamas))
                         {
                             Console.WriteLine("Neteisinga ivestis");
-                            return;
+                            return true; ;
                         }
                         _nuomaService.DeleteAutomobilis(istrinamas);
                         break;
@@ -132,7 +138,7 @@ namespace AutomobiliuNuoma.Services
                         if (!int.TryParse(Console.ReadLine(), out kIstrinamas))
                         {
                             Console.WriteLine("Neteisinga ivestis");
-                            return;
+                            return true; ;
                         }
                         _nuomaService.DeleteClient(kIstrinamas);
                         break;
@@ -142,14 +148,14 @@ namespace AutomobiliuNuoma.Services
                         if (!int.TryParse(Console.ReadLine(), out autoId))
                         {
                             Console.WriteLine("Neteisinga ivestis");
-                            return;
+                            return true; ;
                         }
                         Console.WriteLine("Iveskite savo kliento ID:");
                         int klientoId;
                         if (!int.TryParse(Console.ReadLine(), out klientoId))
                         {
                             Console.WriteLine("Neteisinga ivestis");
-                            return;
+                            return true; ;
                         }
                         Console.WriteLine("Iveskite nuomos pradzios data formatu yyyy-MM-dd:");
                         DateTime nuo = DateTime.Parse(Console.ReadLine());
@@ -158,17 +164,23 @@ namespace AutomobiliuNuoma.Services
                         _nuomaService.RentAutomobilis(autoId, klientoId, nuo, iki);
                         break;
                     case 10:
-                        Console.WriteLine("Iveskite kliento ID kuri norite atnaujinti: ");
-                        int kAtnaujinamas;
-                        if (!int.TryParse(Console.ReadLine(), out kAtnaujinamas))
+                        Console.WriteLine("Iveskite kliento ID, kuri norite atnaujinti: ");
+                        int ivestukas;
+                        if (!int.TryParse(Console.ReadLine(), out ivestukas))
                         {
                             Console.WriteLine("Neteisinga ivestis");
-                            return;
+                            return true; ;
                         }
-                        _nuomaService.UpdateClient(kAtnaujinamas);
+                        Console.WriteLine("Naujas vardas:");
+                        string vardas = Console.ReadLine();
+                        Console.WriteLine("Nauja pavarde:");
+                        string pavarde = Console.ReadLine();
+                        Console.WriteLine("Naujas email:");
+                        string email = Console.ReadLine();
+                        _nuomaService.UpdateClient(ivestukas, vardas, pavarde, email);
                         break;
                     case 11:
-                        Environment.Exit(0);
+                        await _nuomaService.GetVisiAuto();
                         break;
                     default:
                         Console.WriteLine("Neteisinga ivestis");

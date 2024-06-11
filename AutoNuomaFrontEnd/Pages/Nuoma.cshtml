@@ -1,0 +1,51 @@
+﻿@page
+@model NuomaModel
+@{
+    ViewData["Title"] = "Nuoma";
+}
+
+@{
+    DateTime currentDate = DateTime.Now;
+}
+
+<div class="text-center">
+    <h1 class="display-4">Nuomos sąrašas</h1>
+</div>
+<div class="d-flex justify-content-center mt-4">
+    <a class="btn btn-primary mx-2" asp-area="" asp-page="/Automobiliai">Automobiliai</a>
+    <a class="btn btn-primary mx-2" asp-area="" asp-page="/Klientai">Klientai</a>
+    <a class="btn btn-primary mx-2" asp-area="" asp-page="/Nuoma">Nuoma</a>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nuomos ID</th>
+            <th>Automobilio ID</th>
+            <th>Kliento ID</th>
+            <th>Nuomuojama nuo</th>
+            <th>Iki</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var nuoma in Model.Nuomos)
+        {
+            <tr>
+                <td>@nuoma.Id</td>
+                <td>@nuoma.AutomobilioId</td>
+                <td>@nuoma.KlientoId</td>
+                <td>@nuoma.Nuo.ToString("yyyy-MM-dd")</td>
+                <td class="@((nuoma.Iki.Date != currentDate.Date) ? (nuoma.Iki.Date < currentDate.Date ? "table-danger" : "table-success") : "")">@nuoma.Iki.ToString("yyyy-MM-dd")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="container text-center">
+    <div class="d-flex justify-content-center">
+        <p><span class="badge bg-danger">RED</span>  Turėjo būti grąžinta.</p>
+    </div>
+    <div class="d-flex justify-content-center">
+        <p><span class="badge bg-success">GREEN</span>  Dar nuomojama.</p>
+    </div>
+</div>

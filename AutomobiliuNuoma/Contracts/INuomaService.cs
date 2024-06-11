@@ -13,12 +13,21 @@ namespace AutomobiliuNuoma.Contracts
         void RentAutomobilis(int automobilioId, int klientoId, DateTime nuo, DateTime iki);
         void RegisterAutomobilis(Automobilis auto);
         void RegisterClient(Klientas klientas);
-        void UpdateAutomobilis(int id);
         void DeleteAutomobilis(int id);
         void DeleteClient(int id);
         List<Automobilis> GetAutomobiliai(string tipas);
         List<Klientas> GetKlientai();
-        List<Automobilis> GetRentedAutomobiliai();
-        void UpdateClient(int id);
+        List<Nuoma> GetRentedAutomobiliai();
+        void UpdateClient(int id, string vardas, string pavarde, string email);
+        void UpdateAutomobilis(int id, string marke, string modelis, int metai, string registracijosNumeris);
+        Task<List<Automobilis>> GetVisiAuto();
+        Task<List<Klientas>> GetVisiKlientai();
+        List<Saskaita> GetSaskaitos();
+        void AddKaina(int automobilioId, float kainaPerDiena);
+        public Task RunCleanupJob();
+        public Task<List<Automobilis>> GetAutoBy(string marke, string modelis);
+        public Task<List<Klientas>> GetKlientasBy(string vardas);
+
+
     }
 }

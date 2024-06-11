@@ -1,0 +1,220 @@
+﻿@page
+@model AutomobiliaiModel
+@{
+    ViewData["Title"] = "Automobiliai";
+}
+<style>
+
+    .form-control {
+        width: 35ch; /* Set initial width to fit 35 characters */
+        margin-left: 10px;
+    }
+
+    .btn-margin {
+        margin-top: 10px;
+    }
+
+    form button[type="submit"] {
+
+        margin-top: 10px;
+
+    }
+
+    /* Add transition to form wrapper */
+    .form-wrapper {
+        transition: height 0.5s ease;
+        overflow: hidden;
+    }
+
+        .form-wrapper form {
+            margin-bottom: 80px; /* Add margin to bottom of form */
+        }
+</style>
+<div class="text-center">
+    <h1 class="display-4">Automobilių sąrašas</h1>
+</div>
+
+<div class="d-flex justify-content-center mt-4">
+    <div class="btn-group">
+        <a class="btn btn-primary mx-2" asp-area="" asp-page="/Automobiliai">Automobiliai</a>
+        <a class="btn btn-primary mx-2" asp-area="" asp-page="/Klientai">Klientai</a>
+        <a class="btn btn-primary mx-2" asp-area="" asp-page="/Nuoma">Nuoma</a>
+    </div>
+</div>
+
+<div class="text-center mt-4">
+    <button type="button" class="btn btn-success mx-2" onclick="toggleFormVisibility('addCarForm')">Pridėti automobilį</button>
+    <button type="button" class="btn btn-success mx-2" onclick="toggleFormVisibility('addKainaForm')">Pridėti kainą automobiliui</button>
+    <button type="button" class="btn btn-success mx-2" onclick="toggleFormVisibility('updateCarForm')">Atnaujinti automobilio info</button>
+    <button type="button" class="btn btn-success mx-2" onclick="toggleFormVisibility('rentCarForm')">Išnuomuoti automobilį</button>
+</div>
+
+
+
+<div id="addCarFormWrapper" class="form-wrapper" style="height: 0;">
+    <form id="carForm" method="post" action="http://localhost:5036/DatabaseActions/RegisterAutomobilis">
+        <div class="form-group">
+            <label for="Marke">Markė:</label>
+            <input type="text" class="form-control" id="Marke" name="Marke" required>
+        </div>
+
+        <div class="form-group">
+            <label for="Modelis">Modelis:</label>
+            <input type="text" class="form-control" id="Modelis" name="Modelis" required>
+        </div>
+
+        <div class="form-group">
+            <label for="Metai">Metai:</label>
+            <input type="number" class="form-control" id="Metai" name="Metai" min="1900" max="@DateTime.Now.Year" required>
+        </div>
+
+        <div class="form-group">
+            <label for="RegistracijosNumeris">Registracijos Numeris:</label>
+            <input type="text" class="form-control" id="RegistracijosNumeris" name="RegistracijosNumeris" required pattern="[A-Z]{3}[0-9]{3}">
+        </div>
+
+        <div class="form-group">
+            <label for="Type">Tipas:</label>
+            <select class="form-control" id="Type" name="Type" required onchange="toggleTypeFields()">
+                <option value="">Pasirinkti tipą</option>
+                <option value="NaftosKuroAutomobilis">Naftos kuro automobilis</option>
+                <option value="Elektromobilis">Elektromobilis</option>
+            </select>
+        </div>
+
+        <div class="form-group" id="BakoTalpaGroup" style="display:none;">
+            <label for="BakoTalpa">Bako Talpa (litrai):</label>
+            <input type="number" class="form-control" id="BakoTalpa" name="BakoTalpa" min="0" step="0.1">
+        </div>
+
+        <div class="form-group" id="BaterijosTalpaGroup" style="display:none;">
+            <label for="BaterijosTalpa">Baterijos Talpa (kWh):</label>
+            <input type="number" class="form-control" id="BaterijosTalpa" name="BaterijosTalpa" min="0" step="0.1">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Sukurti</button>
+    </form>
+</div>
+
+<div id="addKainaFormWrapper" class="form-wrapper" style="height: 0;">
+    <form id="addKainaForm" method="post" action="http://localhost:5036/DatabaseActions/AddKaina">
+        <div class="form-group">
+            <label for="automobilioId">Automobilio ID:</label>
+            <input type="number" class="form-control" id="automobilioId" name="automobilioId" required>
+        </div>
+        <div class="form-group">
+            <label for="kainaPerDiena">Kaina per dieną:</label>
+            <input type="number" step="0.01" class="form-control" id="kainaPerDiena" name="kainaPerDiena" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Pridėti Kainą</button>
+    </form>
+</div>
+
+<div id="updateCarFormWrapper" class="form-wrapper" style="height: 0;">
+    <form id="updateCarForm" method="post" action="http://localhost:5036/DatabaseActions/UpdateAutomobilis">
+        <div class="form-group">
+            <label for="AutomobilioId">Įveskite automobilio ID kurį norite atnaujinti:</label>
+            <input type="number" class="form-control" id="AutomobilioId" name="id" required>
+        </div>
+
+        <div class="form-group">
+            <label for="Marke">Nauja markė:</label>
+            <input type="text" class="form-control" id="Marke" name="marke">
+        </div>
+        <div class="form-group">
+            <label for="Modelis">Naujas modelis:</label>
+            <input type="text" class="form-control" id="Modelis" name="modelis">
+        </div>
+        <div class="form-group">
+            <label for="Metai">Nauji metai:</label>
+            <input type="text" class="form-control" id="Metai" name="metai">
+        </div>
+        <div class="form-group">
+            <label for="RegistracijosNumeris">Naujas Reg.Nr:</label>
+            <input type="text" class="form-control" id="RegistracijosNumeris" name="registracijosNumeris">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Atnaujinti</button>
+    </form>
+</div>
+
+<div id="rentCarFormWrapper" class="form-wrapper" style="height: 0;">
+    <form id="rentCarForm" method="post" action="http://localhost:5036/DatabaseActions/RentAutomobilis">
+        <div class="form-group">
+            <label for="AutomobilioId">Automobilio ID:</label>
+            <input type="number" class="form-control" id="AutomobilioId" name="automobilioId" min="1" required>
+
+            <label for="KlientoId">Kliento ID:</label>
+            <input type="number" class="form-control" id="KlientoId" name="klientoIdrequired>
+
+            <label for="Nuo">Nuo (data):</label>
+            <input type="date" class="form-control" id="Nuo" name="nuo" required>
+
+            <label for="Iki">Iki (data):</label>
+            <input type="date" class="form-control" id="Iki" name="iki" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Išnuomoti</button>
+    </form>
+</div>
+
+<script>
+    function toggleTypeFields() {
+        var type = document.getElementById("Type").value;
+        document.getElementById("BakoTalpaGroup").style.display = type === "NaftosKuroAutomobilis" ? "block" : "none";
+        document.getElementById("BaterijosTalpaGroup").style.display = type === "Elektromobilis" ? "block" : "none";
+    }
+
+    function toggleFormVisibility(formId) {
+        var formWrapper = document.getElementById(formId + "Wrapper");
+        var formHeight = formWrapper.scrollHeight; // Get the height of the form
+
+
+        // Toggle the height of the form wrapper
+        if (formWrapper.clientHeight === 0) {
+            formWrapper.style.height = formHeight + "px";
+        } else {
+            formWrapper.style.height = 0;
+        }
+
+        // Hide other forms if they are open
+        var allFormWrappers = document.querySelectorAll('.form-wrapper');
+        allFormWrappers.forEach(function (wrapper) {
+            if (wrapper.id !== formId + "Wrapper" && wrapper.clientHeight !== 0) {
+                wrapper.style.height = 0;
+            }
+        });
+    }
+
+    // Ensure no forms are visible on page load
+    window.addEventListener('load', function () {
+        var allFormWrappers = document.querySelectorAll('.form-wrapper');
+        allFormWrappers.forEach(function (wrapper) {
+            wrapper.style.height = 0;
+        });
+    });
+</script>
+<div class="table-container">
+    <table class="table table-striped mt-4">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Modelis</th>
+                <th>Markė</th>
+                <th>Metai</th>
+                <th>Registracijos Nr.</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var car in Model.Automobiliai)
+            {
+                <tr>
+                    <td>@car.Id</td>
+                    <td>@car.Modelis</td>
+                    <td>@car.Marke</td>
+                    <td>@car.Metai</td>
+                    <td>@car.RegistracijosNumeris</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
