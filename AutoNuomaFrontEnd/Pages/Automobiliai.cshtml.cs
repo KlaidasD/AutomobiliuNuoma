@@ -2,6 +2,7 @@ using AutomobiliuNuoma.Models;
 using AutoNuomaFrontEnd.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Serilog;
 
 namespace AutoNuomaFrontEnd.Pages
 {
@@ -9,10 +10,10 @@ namespace AutoNuomaFrontEnd.Pages
     {
         [BindProperty]
         public List<Automobilis> Automobiliai { get; set; } = new List<Automobilis>();
-        private readonly ILogger<IndexModel> _logger;
+        private readonly ILogger<AutomobiliaiModel> _logger;
         INuomaWebService _nuomaService;
 
-        public AutomobiliaiModel(ILogger<IndexModel> logger, INuomaWebService nuomaService)
+        public AutomobiliaiModel(ILogger<AutomobiliaiModel> logger, INuomaWebService nuomaService)
         {
             _nuomaService = nuomaService;
             _logger = logger;
@@ -21,6 +22,7 @@ namespace AutoNuomaFrontEnd.Pages
         public void OnGet()
         {
             Automobiliai  = _nuomaService.GetVisiAuto();
+            Log.Information("Saskaitos page visited at {Time}", DateTime.UtcNow);
         }
     }
 }

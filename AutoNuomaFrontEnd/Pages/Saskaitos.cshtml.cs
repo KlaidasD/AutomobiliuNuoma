@@ -2,6 +2,7 @@ using AutomobiliuNuoma.Models;
 using AutoNuomaFrontEnd.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Serilog;
 
 namespace AutoNuomaFrontEnd.Pages
 {
@@ -9,18 +10,17 @@ namespace AutoNuomaFrontEnd.Pages
     {
 
         public List<Saskaita> Saskaitos { get; set; } = new List<Saskaita>();
-        private readonly ILogger<SaskaitosModel> _logger;
         INuomaWebService _nuomaService;
 
-        public SaskaitosModel(ILogger<SaskaitosModel> logger, INuomaWebService nuomaService)
+        public SaskaitosModel(INuomaWebService nuomaService)
         {
             _nuomaService = nuomaService;
-            _logger = logger;
         }
 
         public void OnGet()
         {
             Saskaitos = _nuomaService.GetSaskaitos();
+            Log.Information("Saskaitos page visited at {Time}", DateTime.UtcNow);
         }
     }
 }

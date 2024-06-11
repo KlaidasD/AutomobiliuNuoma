@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
 using System.Linq;
@@ -20,7 +22,10 @@ namespace AutomobiliuNuoma.Models
         public string Email { get; set; }
         [JsonPropertyName("regData")]
         public DateTime RegData { get; set; }
-        
+
+        [BsonId]
+        public ObjectId _id { get; set; }
+
         public override string ToString()
         {
             return $"ID: {Id}, Vardas: {Vardas}, Pavardė: {Pavarde}, El. paštas: {Email}, Registracijos data: {RegData}";

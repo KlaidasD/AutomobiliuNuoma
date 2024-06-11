@@ -21,7 +21,7 @@ namespace AutomobiliuNuoma.Repository
         {
             var database = mongoClient.GetDatabase("AutomobiliaiCache");
             _Automobilis = database.GetCollection<Automobilis>("cache");
-            _Klientas = database.GetCollection<Klientas>("cache");
+            _Klientas = database.GetCollection<Klientas>("cacheKlientai");
         }
 
         public async Task<List<Automobilis>> GetAllAutomobiliai()

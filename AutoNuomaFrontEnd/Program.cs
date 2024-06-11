@@ -1,4 +1,5 @@
 using AutoNuomaFrontEnd.Services;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,7 +7,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddSingleton<INuomaWebService, NuomaWebService>(_=> new NuomaWebService("http://localhost:5036/"));
 
+
+var log = new LoggerConfiguration()
+.WriteTo.Console()
+.WriteTo.File("logs/NuomaFE.txt", rollingInterval: RollingInterval.Day)
+.CreateLogger();
+Log.Logger = log;
 var app = builder.Build();
+
+
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

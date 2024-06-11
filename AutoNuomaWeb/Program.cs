@@ -3,6 +3,7 @@ using AutomobiliuNuoma.Repositories;
 using AutomobiliuNuoma.Repository;
 using AutomobiliuNuoma.Services;
 using MongoDB.Driver;
+using Serilog;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,8 +22,15 @@ builder.Services.AddSingleton<IMongoRepository, MongoRepository>(sp => new Mongo
 
 builder.Services.AddSingleton<INuomaService, NuomaService>();
 
+var log = new LoggerConfiguration()
+.WriteTo.Console()
+.WriteTo.File("logs/NuomaFE.txt", rollingInterval: RollingInterval.Day)
+.CreateLogger();
+Log.Logger = log;
+
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
