@@ -11,5 +11,7 @@ namespace AutomobiliuNuoma.Contracts
         Task AddKlientai(List<Klientas> klientai);
         Task<List<Automobilis>> GetAllAutomobiliai();
         Task AddAutomobiliai(List<Automobilis> automobiliai);
+        Task AddDviratis(Dviratis dviratis);
+        Task<List<Dviratis>> GetAllDviratis();
     }
 }

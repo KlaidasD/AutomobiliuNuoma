@@ -26,8 +26,6 @@ namespace AutomobiliuNuoma
             //mongoRepository.AddAutomobilis(new Automobilis { Marke = "Audi", Modelis = "A4", Metai = 2010, RegistracijosNumeris = "ABC123" });
             nuomaUI.Menu();
             while (true) ;
-            
-            
         }
     }
 }

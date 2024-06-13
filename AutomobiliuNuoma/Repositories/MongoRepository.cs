@@ -16,12 +16,14 @@ namespace AutomobiliuNuoma.Repository
         private readonly IMongoCollection<Automobilis> _Automobilis;
         private readonly INuomaService _nuomaService;
         private readonly IMongoCollection<Klientas> _Klientas;
+        private readonly IMongoCollection<Dviratis> _Dviratis;
 
         public MongoRepository(IMongoClient mongoClient)
         {
             var database = mongoClient.GetDatabase("AutomobiliaiCache");
             _Automobilis = database.GetCollection<Automobilis>("cache");
             _Klientas = database.GetCollection<Klientas>("cacheKlientai");
+            _Dviratis = database.GetCollection<Dviratis>("cacheDviratis");
         }
 
         public async Task<List<Automobilis>> GetAllAutomobiliai()
@@ -63,6 +65,14 @@ namespace AutomobiliuNuoma.Repository
             return await _Klientas.Find(klientas => true).ToListAsync();
         }
 
-        
+        public async Task AddDviratis(Dviratis dviratis)
+        {
+            await _Dviratis.InsertOneAsync(dviratis);
+        }
+
+        public async Task<List<Dviratis>> GetAllDviratis()
+        {
+            return await _Dviratis.Find(dviratis => true).ToListAsync();
+        }
     }
 }
