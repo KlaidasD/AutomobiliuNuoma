@@ -20,6 +20,8 @@ namespace AutomobiliuNuoma
                 await _database.GetCollection<Automobilis>("cache").DeleteManyAsync(_ => true);
                 Console.WriteLine("Pašalinami seni klientų įrašai");
                 await _database.GetCollection<Klientas>("cacheKlientai").DeleteManyAsync(_ => true);
+                Console.WriteLine("Pašalinami seni dviračių įrašai");
+                await _database.GetCollection<Dviratis>("cacheDviratis").DeleteManyAsync(_ => true);
 
                 await Task.Delay(TimeSpan.FromMinutes(2));
             }

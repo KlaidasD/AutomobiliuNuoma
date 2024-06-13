@@ -27,6 +27,9 @@ namespace AutomobiliuNuoma.Contracts
         public Task RunCleanupJob();
         public Task<List<Automobilis>> GetAutoBy(string marke, string modelis);
         public Task<List<Klientas>> GetKlientasBy(string vardas);
+        void AddDviratis(Dviratis dviratis);
+        List<Dviratis> GetDviraciai();
+        void RemoveDviratis(int id);
 
 
     }

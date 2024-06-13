@@ -18,6 +18,7 @@ namespace AutomobiliuNuoma.Database
         public DbSet<Kaina> Kaina { get; set; }
         public DbSet<Saskaita> Saskaita { get; set; }
         public DbSet<Dviratis> Dviratis { get; set; }
+        public DbSet<DviraciuNuoma> DviraciuNuoma { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

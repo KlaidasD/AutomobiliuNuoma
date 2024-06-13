@@ -29,6 +29,8 @@ namespace AutomobiliuNuoma.Services
             _mongoCleanupService = new CacheControlService(mongoClient);
         }
 
+        
+
         public List<Klientas> GetKlientai()
         {
             return _databaseRepository.GetKlientai();
@@ -177,6 +179,21 @@ namespace AutomobiliuNuoma.Services
         public void AddKaina(int automobilioId, float kainaPerDiena)
         {
             _databaseRepository.AddKaina(automobilioId, kainaPerDiena);
+        }
+
+        public void AddDviratis(Dviratis dviratis)
+        {
+            _databaseRepository.AddDviratis(dviratis);
+        }
+
+        public List<Dviratis> GetDviraciai()
+        {
+            return _databaseRepository.GetDviraciai();
+        }
+
+        public void RemoveDviratis(int id)
+        {
+            _databaseRepository.RemoveDviratis(id);
         }
     }
 }

@@ -12,6 +12,7 @@ namespace AutomobiliuNuoma.Contracts
         Task<List<Automobilis>> GetAllAutomobiliai();
         Task AddAutomobiliai(List<Automobilis> automobiliai);
         Task AddDviratis(Dviratis dviratis);
-        Task<List<Dviratis>> GetAllDviratis();
+        Task<List<Dviratis>> GetAllDviraciai();
+        Task AddDviraciai(List<Dviratis> dviraciai);
     }
 }

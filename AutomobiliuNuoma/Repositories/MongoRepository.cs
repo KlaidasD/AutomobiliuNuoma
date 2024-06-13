@@ -70,9 +70,16 @@ namespace AutomobiliuNuoma.Repository
             await _Dviratis.InsertOneAsync(dviratis);
         }
 
-        public async Task<List<Dviratis>> GetAllDviratis()
+        public async Task<List<Dviratis>> GetAllDviraciai()
         {
             return await _Dviratis.Find(dviratis => true).ToListAsync();
         }
+
+        public async Task AddDviraciai(List<Dviratis> dviraciai)
+        {
+            await _Dviratis.InsertManyAsync(dviraciai);
+        }
+
+
     }
 }

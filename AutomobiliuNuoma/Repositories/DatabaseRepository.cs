@@ -10,17 +10,62 @@ using Dapper;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Diagnostics.Metrics;
 using System.Configuration;
+using AutomobiliuNuoma.Database;
 
 namespace AutomobiliuNuoma.Repositories
 {
     public class DatabaseRepository : IDatabaseRepository
     {
         private readonly string _connectionString;
+        private NuomaDbContext _dbContext;
+
 
         public DatabaseRepository(string connectionString)
         {
             _connectionString = connectionString;
+            _dbContext = new NuomaDbContext();
         }
+
+        public void AddDviratis(Dviratis dviratis)
+        {
+            _dbContext.Dviratis.Add(dviratis);
+            _dbContext.SaveChanges();
+        }
+
+        public void RemoveDviratis(int id)
+        {
+            var dviratis = _dbContext.Dviratis.Find(id);
+            _dbContext.Dviratis.Remove(dviratis);
+            _dbContext.SaveChanges();
+        }
+
+        public List<Dviratis> GetDviraciai()
+        {
+            return _dbContext.Dviratis.ToList();
+        }
+
+        public void RentDviratis(int dviracioId, int klientoId, DateTime nuo, DateTime iki)
+        {
+            var dviratis = _dbContext.Dviratis.Find(dviracioId);
+            if (dviratis == null)
+            {
+                Console.WriteLine("Dviratis nerastas.");
+                return;
+            }
+
+            var dviracioNuoma = new DviraciuNuoma
+            {
+                DviracioId = dviracioId,
+                KlientoId = klientoId,
+                Nuo = nuo,
+                Iki = iki
+            };
+
+            _dbContext.DviraciuNuoma.Add(dviracioNuoma);
+            _dbContext.SaveChanges();
+        }
+
+
 
         public void DeleteAutomobilis(int id)
         {
