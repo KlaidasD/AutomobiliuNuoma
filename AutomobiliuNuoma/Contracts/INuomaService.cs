@@ -24,13 +24,13 @@ namespace AutomobiliuNuoma.Contracts
         Task<List<Klientas>> GetVisiKlientai();
         List<Saskaita> GetSaskaitos();
         void AddKaina(int automobilioId, float kainaPerDiena);
-        public Task RunCleanupJob();
-        public Task<List<Automobilis>> GetAutoBy(string marke, string modelis);
-        public Task<List<Klientas>> GetKlientasBy(string vardas);
+        Task RunCleanupJob();
+        Task<List<Automobilis>> GetAutoBy(string marke, string modelis);
+        Task<List<Klientas>> GetKlientasBy(string vardas);
         void AddDviratis(Dviratis dviratis);
-        List<Dviratis> GetDviraciai();
+        Task<List<Dviratis>> GetDviraciai();
         void RemoveDviratis(int id);
-
-
+        void RentDviratis(int dviracioId, int klientoId, DateTime nuo, DateTime iki);
+        List<DviraciuNuoma> GetRentedDviraciai();
     }
 }

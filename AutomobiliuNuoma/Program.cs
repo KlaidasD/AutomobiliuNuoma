@@ -8,6 +8,7 @@ using AutomobiliuNuoma.Models;
 using AutomobiliuNuoma.Contracts;
 using MongoDB.Driver;
 using AutomobiliuNuoma.Repository;
+using Serilog;
 
 
 namespace AutomobiliuNuoma
@@ -16,6 +17,11 @@ namespace AutomobiliuNuoma
     {
         public static void Main(string[] args)
         {
+            var log = new LoggerConfiguration()
+            .WriteTo.Console()
+            .WriteTo.File("logs/Console.txt", rollingInterval: RollingInterval.Day)
+            .CreateLogger();
+            Log.Logger = log;
             string connectionString = "Server=DESKTOP-9849SKM;Database=autonuoma;Integrated Security=True;";
             string mongoConnectionString = "mongodb+srv://kdaunoras:456!456@cluster0.d06sgyt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
             var databaseRepository = new DatabaseRepository(connectionString);

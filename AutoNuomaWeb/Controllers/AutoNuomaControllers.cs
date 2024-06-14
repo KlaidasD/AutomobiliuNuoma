@@ -151,148 +151,227 @@ namespace AutoNuomaWeb.Controllers
             {
                 Log.Fatal(ex, "Failed to register client at {Time}", DateTime.UtcNow);
             }
+        }
 
-
-            [HttpPost("RentAutomobilis")]
-            void RentAutomobilis([FromForm] int automobilioId, [FromForm] int klientoId, [FromForm] DateTime nuo, [FromForm] DateTime iki)
+        [HttpPost("RentAutomobilis")]
+        public void RentAutomobilis([FromForm] int automobilioId, [FromForm] int klientoId, [FromForm] DateTime nuo, [FromForm] DateTime iki)
+        {
+            try
             {
-                try
-                {
-                    Log.Information("Renting car at {Time}", DateTime.UtcNow);
-                    _nuomaService.RentAutomobilis(automobilioId, klientoId, nuo, iki);
-                }
-                catch (Exception ex)
-                {
-                    Log.Fatal(ex, "Failed to rent car at {Time}", DateTime.UtcNow);
-                    throw;
-                }
-
+                Log.Information("Renting car at {Time}", DateTime.UtcNow);
+                _nuomaService.RentAutomobilis(automobilioId, klientoId, nuo, iki);
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Failed to rent car at {Time}", DateTime.UtcNow);
+                throw;
             }
 
-            [HttpPost("UpdateKlientas")]
-            void UpdateKlientas([FromForm] int id, [FromForm] string vardas, [FromForm] string pavarde, [FromForm] string email)
-            {
-                try
-                {
-                    Log.Information("Updating client at {Time}", DateTime.UtcNow);
-                    _nuomaService.UpdateClient(id, vardas, pavarde, email);
-                }
-                catch (Exception ex)
-                {
-                    Log.Fatal(ex, "Failed to update client at {Time}", DateTime.UtcNow);
-                    throw;
-                }
+        }
 
+        [HttpPost("UpdateKlientas")]
+        public void UpdateKlientas([FromForm] int id, [FromForm] string vardas, [FromForm] string pavarde, [FromForm] string email)
+        {
+            try
+            {
+                Log.Information("Updating client at {Time}", DateTime.UtcNow);
+                _nuomaService.UpdateClient(id, vardas, pavarde, email);
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Failed to update client at {Time}", DateTime.UtcNow);
+                throw;
             }
 
-            [HttpPost("UpdateAutomobilis")]
-            void UpdateAutomobilis([FromForm] int id, [FromForm] string marke, [FromForm] string modelis, [FromForm] int metai, [FromForm] string registracijosNumeris)
-            {
-                try
-                {
-                    Log.Information("Updating car at {Time}", DateTime.UtcNow);
-                    _nuomaService.UpdateAutomobilis(id, marke, modelis, metai, registracijosNumeris);
-                }
-                catch (Exception ex)
-                {
-                    Log.Fatal(ex, "Failed to update car at {Time}", DateTime.UtcNow);
-                    throw;
-                }
+        }
 
+        [HttpPost("UpdateAutomobilis")]
+        public void UpdateAutomobilis([FromForm] int id, [FromForm] string marke, [FromForm] string modelis, [FromForm] int metai, [FromForm] string registracijosNumeris)
+        {
+            try
+            {
+                Log.Information("Updating car at {Time}", DateTime.UtcNow);
+                _nuomaService.UpdateAutomobilis(id, marke, modelis, metai, registracijosNumeris);
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Failed to update car at {Time}", DateTime.UtcNow);
+                throw;
             }
 
+        }
 
-            [HttpPost("DeleteAutomobilis")]
-            void DeleteAutomobilis([FromForm] int id)
+
+        [HttpPost("DeleteAutomobilis")]
+        public void DeleteAutomobilis([FromForm] int id)
+        {
+            try
             {
-                try
-                {
-                    _nuomaService.DeleteAutomobilis(id);
-                }
-                catch (Exception ex)
-                {
-                    Log.Fatal(ex, "Failed to delete car at {Time}", DateTime.UtcNow);
-                    throw;
-                }
-
+                Log.Information("Deleting car at {Time}", DateTime.UtcNow);
+                _nuomaService.DeleteAutomobilis(id);
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Failed to delete car at {Time}", DateTime.UtcNow);
+                throw;
             }
 
-            [HttpPost("DeleteKlientas")]
-            void DeleteKlientas([FromForm] int id)
-            {
-                try
-                {
-                    _nuomaService.DeleteClient(id);
-                }
-                catch (Exception ex)
-                {
-                    Log.Fatal(ex, "Failed to delete client at {Time}", DateTime.UtcNow);
-                    throw;
-                }
+        }
 
+        [HttpPost("DeleteKlientas")]
+        public void DeleteKlientas([FromForm] int id)
+        {
+            try
+            {
+                Log.Information("Deleting client at {Time}", DateTime.UtcNow);
+                _nuomaService.DeleteClient(id);
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Failed to delete client at {Time}", DateTime.UtcNow);
+                throw;
             }
 
-            [HttpPost("AddKaina")]
-            void AddKaina([FromForm] int automobilioId, [FromForm] float kainaPerDiena)
-            {
-                try
-                {
-                    _nuomaService.AddKaina(automobilioId, kainaPerDiena);
-                }
-                catch (Exception ex)
-                {
-                    Log.Fatal(ex, "Failed to add price at {Time}", DateTime.UtcNow);
-                    throw;
-                }
+        }
 
+        [HttpPost("AddKaina")]
+        public void AddKaina([FromForm] int automobilioId, [FromForm] float kainaPerDiena)
+        {
+            try
+            {
+                Log.Information("Adding car price at {Time}", DateTime.UtcNow);
+                _nuomaService.AddKaina(automobilioId, kainaPerDiena);
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Failed to add price at {Time}", DateTime.UtcNow);
+                throw;
             }
 
-            [HttpGet("GautiSaskaitas")]
-            List<Saskaita> GautiSaskaitas()
-            {
-                try
-                {
-                    List<Saskaita> saskaitos = _nuomaService.GetSaskaitos();
-                    return saskaitos;
-                }
-                catch (Exception ex)
-                {
-                    Log.Fatal(ex, "Failed to get invoices at {Time}", DateTime.UtcNow);
-                    throw;
-                }
+        }
 
+        [HttpGet("GautiSaskaitas")]
+        public List<Saskaita> GautiSaskaitas()
+        {
+            try
+            {
+                Log.Information("Getting invoices at {Time}", DateTime.UtcNow);
+                List<Saskaita> saskaitos = _nuomaService.GetSaskaitos();
+                return saskaitos;
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Failed to get invoices at {Time}", DateTime.UtcNow);
+                throw;
             }
 
-            [HttpGet("IeskotiPagalVarda")]
-            async Task<List<Klientas>> IeskotiPagalVarda(string vardas)
-            {
-                try
-                {
-                    return await _nuomaService.GetKlientasBy(vardas);
-                }
-                catch (Exception ex)
-                {
-                    Log.Fatal(ex, "Failed to search by name at {Time}", DateTime.UtcNow);
-                    throw;
-                }
+        }
 
+        [HttpGet("IeskotiPagalVarda")]
+        public async Task<List<Klientas>> IeskotiPagalVarda(string vardas)
+        {
+            try
+            {
+                Log.Information("Searching by name at {Time}", DateTime.UtcNow);
+                return await _nuomaService.GetKlientasBy(vardas);
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Failed to search by name at {Time}", DateTime.UtcNow);
+                throw;
             }
 
-            [HttpGet("IeskotiPagalMarkeArbaModeli")]
-            async Task<List<Automobilis>> IeskotiPagalMarkeArbaModeli(string marke = null, string modelis = null)
-            {
-                try
-                {
-                    return await _nuomaService.GetAutoBy(marke, modelis);
-                }
-                catch (Exception ex)
-                {
-                    Log.Fatal(ex, "Failed to search by brand or model at {Time}", DateTime.UtcNow);
-                    throw;
-                }
+        }
 
+        [HttpGet("IeskotiPagalMarkeArbaModeli")]
+        public async Task<List<Automobilis>> IeskotiPagalMarkeArbaModeli(string marke = null, string modelis = null)
+        {
+            try
+            {
+                Log.Information("Searching by brand or model at {Time}", DateTime.UtcNow);
+                return await _nuomaService.GetAutoBy(marke, modelis);
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Failed to search by brand or model at {Time}", DateTime.UtcNow);
+                throw;
+            }
+
+        }
+
+        [HttpGet("GautiVisusDviracius")]
+        public async Task<List<Dviratis>> GautiVisusDviracius()
+        {
+            try
+            {
+                Log.Information("Getting all bikes at {Time}", DateTime.UtcNow);
+                return await _nuomaService.GetDviraciai();
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Failed to get all bikes at {Time}", DateTime.UtcNow);
+                throw;
+            }
+
+        }
+
+        [HttpPost("RegisterDviratis")]
+        public void RegisterDviratis([FromForm] Dviratis dviratis)
+        {
+            try
+            {
+                Log.Information("Registering bike at {Time}", DateTime.UtcNow);
+                _nuomaService.AddDviratis(dviratis);
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Failed to register bike at {Time}", DateTime.UtcNow);
+                throw;
+            }
+        }
+
+        [HttpPost("DeleteDviratis")]
+        public void DeleteDviratis([FromForm] int id)
+        {
+            try
+            {
+                Log.Information("Deleting bike at {Time}", DateTime.UtcNow);
+                _nuomaService.RemoveDviratis(id);
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Failed to delete bike at {Time}", DateTime.UtcNow);
+                throw;
+            }
+        }
+        [HttpPost("RentDviratis")]
+        public void RentDviratis([FromForm] int dviracioId, [FromForm] int klientoId, [FromForm] DateTime nuo, [FromForm] DateTime iki)
+        {
+            try
+            {
+                Log.Information("Renting bike at {Time}", DateTime.UtcNow);
+                _nuomaService.RentDviratis(dviracioId, klientoId, nuo, iki);
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Failed to rent bike at {Time}", DateTime.UtcNow);
+                throw;
+            }
+        }
+        [HttpGet("GetRentedDviraciai")]
+        public List<DviraciuNuoma> GetRentedDviraciai()
+        {
+            try
+            {
+                Log.Information("Getting rented bikes at {Time}", DateTime.UtcNow);
+                List<DviraciuNuoma> isnuomotiDviraciai = _nuomaService.GetRentedDviraciai();
+                return isnuomotiDviraciai;
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Failed to get rented bikes at {Time}", DateTime.UtcNow);
+                throw;
             }
         }
     }
 }
-

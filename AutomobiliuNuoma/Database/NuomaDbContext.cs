@@ -22,7 +22,7 @@ namespace AutomobiliuNuoma.Database
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=DESKTOP-9849SKM;Database=autonuoma;Integrated Security=True;TrustServerCertificate=true;");
+            optionsBuilder.UseSqlServer("Server=DESKTOP-9849SKM;Database=autonuoma;Integrated Security=True;TrustServerCertificate=true;").EnableSensitiveDataLogging();
         }
 
     }

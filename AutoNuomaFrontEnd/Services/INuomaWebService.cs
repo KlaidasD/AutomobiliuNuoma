@@ -8,6 +8,8 @@ namespace AutoNuomaFrontEnd.Services
         List<Klientas> GetKlientas();
         List<Nuoma> GetNuoma();
         List<Saskaita> GetSaskaitos();
+        List<Dviratis> GetDviraciai();
+        List<DviraciuNuoma> GetRentedDviraciai();
 
     }
 }

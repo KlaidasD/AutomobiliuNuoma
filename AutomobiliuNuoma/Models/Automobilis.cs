@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
@@ -13,8 +15,10 @@ namespace AutomobiliuNuoma.Models
     [BsonDiscriminator(RootClass = true)]
     [BsonKnownTypes(typeof(NaftosKuroAutomobilis), typeof(Elektromobilis))]
 
+    [Table("Automobiliai")]
     public class Automobilis
     {
+        [Key]
         [BsonElement]
         [JsonPropertyName("id")]
         public int Id { get; set; }
@@ -36,6 +40,7 @@ namespace AutomobiliuNuoma.Models
         public string RegistracijosNumeris { get; set; }
 
         [BsonId]
+        [NotMapped]
         public ObjectId _id { get; set; }
 
         public override string ToString()

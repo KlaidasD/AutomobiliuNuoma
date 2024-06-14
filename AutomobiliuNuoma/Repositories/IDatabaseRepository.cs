@@ -24,7 +24,9 @@ namespace AutomobiliuNuoma.Repositories
         List<Saskaita> GetSaskaitos();
         void AddKaina(int automobilioId, float kainaPerDiena);
         void AddDviratis(Dviratis dviratis);
-        List<Dviratis> GetDviraciai();
+        Task<List<Dviratis>> GetDviraciai();
         void RemoveDviratis(int id);
+        void RentDviratis(int dviracioId, int klientoId, DateTime nuo, DateTime iki);
+        List<DviraciuNuoma> GetRentedDviraciai();
     }
 }
